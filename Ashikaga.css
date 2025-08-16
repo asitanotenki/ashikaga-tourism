@@ -1,0 +1,381 @@
+:root{
+  /* ==== カラーテーマ（ニュートラルベース） ==== */
+  --bg:#f2f3f5;        /* 画面の地色：ややグレー寄りの白（白すぎ回避） */
+  --ink:#1e1f22;       /* 標準文字色：濃いグレー（黒より優しい） */
+  --acc:#2f4f5f;       /* アクセント：濃青グレー（リンク/ボタン） */
+  --sub:#8f9a86;       /* サブ：控えめなグレーグリーン */
+  --card:#ffffff;      /* カードの面色：純白（読みやすさ最優先） */
+  --bd:#d6d8dd;        /* 枠線：淡いグレー */
+  --rad:12px;          /* 角丸 */
+  --sp:16px;           /* 余白の基本単位 */
+  --w:1100px;          /* コンテンツ最大幅 */
+  --hd-h:64px;         /* ヘッダーの見込み高さ（必要なら調整） */
+}
+
+/* ==== ベース ==== */
+*{ box-sizing:border-box } /* 全要素のボックスサイズ計算をborder-boxに統一（paddingやborderをwidth/heightに含める） */
+
+html,body{
+  margin:0; /* デフォルトの余白を消去 */
+  padding:0; /* デフォルトの内側余白を消去 */
+  background:var(--bg);  /* ページ全体の背景色を変数--bg（明るめグレー）に設定 */
+  color:var(--ink); /* 文字色を変数--ink（濃いグレー）に設定 */
+  font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans JP",sans-serif; /* システムUI系フォントと日本語フォントを指定 */
+  line-height:1.7; /* 行間を1.7倍に設定して読みやすくする */
+  min-height:100%; /* ページの高さを最低100%に確保（背景色が途切れないようにする） */
+}
+
+/* キーボード操作のフォーカスリング（全体デフォルト） */
+:where(a, button, .btn, .tab):focus-visible{
+  outline:2px solid color-mix(in oklab, white 85%, var(--acc)); /* 白を85%混ぜたアクセント色で枠線を表示 */
+  outline-offset:2px; /* 枠線と要素の間に2pxの間隔をあける */
+  border-radius:8px; /* 枠線を角丸8pxにする */
+}
+
+/* ===============================
+   ヘッダー（黒半透明＋透け感）
+   =============================== */
+.hd{
+  position:sticky; /* スクロールしても画面上部に固定される配置 */
+  top:0; /* 固定位置を画面上端に設定 */
+  z-index:50; /* 他要素よりも前面に表示するためのスタッキング順序 */
+  background:transparent; /* 背景を透明にして内側の要素を見せる */
+  border-bottom:1px solid rgba(0,0,0,.08); /* ヘッダー下にごく薄い線を引く */
+  padding:0 calc(12px + env(safe-area-inset-right)) 0 calc(12px + env(safe-area-inset-left)); /* iOS安全域を考慮した左右余白 */
+}
+
+.hd__inner{
+  max-width:var(--w); /* ヘッダー内の最大幅を変数--wで制限 */
+  margin:auto; /* 中央寄せ */
+  display:flex; /* 子要素を横並びにする */
+  align-items:center; /* 子要素を上下中央揃えにする */
+  gap:12px; /* 子要素間に12pxの間隔を設定 */
+  padding:10px 12px; /* 上下10px・左右12pxの内側余白 */
+
+  /* ▼ フォールバック（backdrop-filter非対応ブラウザ向け） */
+  background:rgba(20,22,26,.75); /* やや青みのある黒を75%不透明で塗る */
+  color:#fff; /* テキストを白にする */
+  border:1px solid rgba(255,255,255,.14); /* 薄い白色の枠線を付ける */
+  border-radius:12px; /* 角を丸める（半径12px） */
+  /* ▼ サポートがある場合のみ“ガラス感” */
+  -webkit-backdrop-filter:blur(6px); /* Safari用背景ぼかし */
+  backdrop-filter:saturate(140%) blur(6px); /* 彩度を高めて背景を6pxぼかす */
+}
+
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))){
+  .hd__inner{ background:rgba(0,0,0,.45); } /* backdrop-filter対応ブラウザではより透明度の高い黒背景にする */
+}
+
+.logo{
+  font-weight:700; /* 太字 */
+  color:#fff; /* 白色文字 */
+  text-decoration:none; /* リンクの下線を消す */
+}
+
+/* モバイルは閉じておく（JSで .is-open を付与） */
+.nav{ display:none; } /* 初期状態でナビゲーション非表示 */
+.nav__btn{ margin-left:auto; } /* モバイル用メニューボタンを右端に寄せる */
+
+@media (min-width:840px){
+  .nav{ display:flex; margin-left:auto; } /* PC幅ではナビを横並び表示し右端に寄せる */
+  .nav__btn{ display:none; } /* PC幅ではモバイル用メニューボタンを隠す */
+}
+
+/* モバイル用の開閉フラグ（JSが付与） */
+.nav.is-open{ display:flex; } /* .is-openが付いたらナビを表示する */
+
+/* スクロールロック（モバイルメニュー開時） */
+html.lock, html.lock body{ overflow:hidden; } /* スクロールを無効化する */
+
+/* ナビリンク：常時読みやすい白文字＋軽い枠。ホバーでほんのり強調 */
+.nav a{
+  color:#fff; /* 白文字 */
+  text-decoration:none; /* 下線なし */
+  padding:8px 12px; /* 内側余白：上下8px、左右12px */
+  margin-left:6px; /* 左側に6pxの間隔をあける */
+  border-radius:8px; /* 角を丸める（8px） */
+  background:transparent; /* 背景は透明 */
+  border:1px solid rgba(255,255,255,.14); /* 薄い白色の枠線 */
+  transition:background-color .2s, border-color .2s, transform .1s; /* ホバー時の変化を滑らかにする */
+}
+
+.nav a:hover{
+  background:rgba(255,255,255,.12); /* 背景を少し白くして強調 */
+  border-color:rgba(255,255,255,.24); /* 枠線の透明度を下げて強調 */
+}
+
+/* 現在地やフォーカス強調 */
+.nav a:focus-visible,
+.nav a[aria-current="page"]{
+  background:rgba(255,255,255,.18); /* 背景をより白くして強調 */
+  border-color:rgba(255,255,255,.36); /* 枠線をさらに目立たせる */
+}
+
+
+/* ===============================
+   ヒーロー（写真スライド＋キャプション）
+   =============================== */
+.hero{
+  position:relative; width:100%;
+  height:clamp(240px, 56svh, 520px);
+  min-height:clamp(240px, 56svh, 520px); /* iOSのアドレスバー変動にも強め */
+  overflow:hidden;
+  background:var(--bg); /* 画像が来るまでのフォールバック */
+}
+/* デスクトップでは“箱入り”で下の幅に揃える */
+@media (min-width:900px){
+  .hero{
+    max-width:var(--w); margin:12px auto;
+    border-radius:12px;
+    box-shadow:0 4px 12px rgba(0,0,0,.06);
+  }
+}
+
+/* スライド（JSで .active を付け替え） */
+/* displayではなくopacityでフェードさせる（体感品質↑） */
+.hero__slide{
+  position:absolute; inset:0;
+  background:var(--bg) center/cover no-repeat; /* script.js で --bg → backgroundImage に上書き */
+  display:block;           /* 常に配置しておく */
+  opacity:0;               /* デフォルトは非表示 */
+  transition:opacity .5s ease; /* フェード */
+}
+.hero__slide.active{ opacity:1; }
+
+/* キャプションは中央重ね。読みやすさ重視で白文字 */
+.hero__cap{
+  position:absolute; inset:0; display:grid; place-items:center;
+  color:#fff; text-align:center; padding:32px;
+  /* さらに読みやすくしたい場合は解放：
+     text-shadow:0 2px 10px rgba(0,0,0,.45); */
+}
+
+/* ===============================
+   ボタン
+   =============================== */
+.btn{
+  display:inline-block; /* インライン要素として並ぶが、幅や高さを設定できるブロック的性質も持つ */
+  background:var(--acc); color:#fff; /* 背景色をアクセント色に、文字色を白にする */
+  padding:10px 16px; /* 上下10px、左右16pxの内側余白をつける */
+  border-radius:999px; /* 丸みを最大にしてカプセル型ボタンにする */
+  text-decoration:none; /* リンクの下線を消す */
+}
+
+.btn--sub{
+  /* 背景に依存しない視認性を確保（黒面/白面どちらでも） */
+  background:transparent;  /* 背景は透明にする */
+  border:1.5px solid currentColor; /* 現在の文字色で1.5pxの枠線を付ける */
+  color:#fff; /* デフォルトの文字色を白にする */
+}
+
+.section--light .btn--sub{ 
+  color:var(--acc); /* ライト背景では文字色をアクセント色にする */
+  border-color:var(--acc); /* 枠線もアクセント色にする */
+}
+
+.btn--sub:hover{ 
+  opacity:.9; /* ホバー時に透明度を0.9にしてわずかに暗くする */
+}
+
+/* ===============================
+   コンテンツ共通レイアウト
+   =============================== */
+.blk{ 
+  max-width:var(--w); /* 最大幅を変数--w（例:1100px）に制限 */
+  margin:auto; /* コンテンツを中央寄せ */
+  padding:28px 16px; /* 上下28px、左右16pxの内側余白 */
+}
+
+/* 以前の “ニュースだけ白面” は残してOK（下でユーティリティでも切替可能） */
+.blk--news{
+  background:var(--card); /* 背景をカード色（白）にする */
+  border-top:1px solid var(--bd); /* 上側に淡い枠線 */
+  border-bottom:1px solid var(--bd); /* 下側にも淡い枠線 */
+}
+
+/* タブ */
+.tabs{ 
+  display:flex; /* 子要素を横並びにする */
+  gap:8px; /* 子要素間の間隔を8pxにする */
+  flex-wrap:wrap; /* 画面幅が足りない場合は折り返す */
+  align-items:center; /* 縦方向中央揃え */
+}
+
+.tab{
+  background:var(--card); /* 背景色をカード色（白）にする */
+  color:var(--ink); /* 文字色を標準インク色にする */
+  border:1px solid var(--bd); /* 枠線を淡いグレーにする */
+  padding:6px 10px; /* 上下6px、左右10pxの内側余白 */
+  border-radius:999px; /* 角を丸くしてカプセル型にする */
+  white-space:nowrap; /* 文字が折り返されないようにする */
+  /* 折返し時の見た目を整える */
+}
+
+.tab.is-act{ 
+  background:var(--acc); /* アクティブタブはアクセント色背景にする */
+  color:#fff; /* アクティブタブは文字色を白にする */
+  border-color:var(--acc); /* 枠線もアクセント色にする */
+}
+
+/* 偶数番目のセクション背景を淡くして区切る */
+.blk:nth-of-type(even) {
+  background-color: #f9f9f9; /* 薄いグレー */
+}
+
+/* 見出し下にアクセント色の下線を入れて区切る */
+.blk h2 {
+  border-bottom: 3px solid var(--acc);
+  padding-bottom: 8px;
+  margin-bottom: 20px;
+}
+
+/* モデルコースの番号がはみ出ないように調整 */
+.course {
+  list-style-position: inside; /* 番号をボックス内に収める */
+  padding-left: 0;             /* 左余白をリセット */
+}
+
+
+
+/* カード */
+.cards{ display:grid; gap:16px; grid-template-columns:1fr; }
+/* ▼ 画面幅に応じて 1 → 2 → 3 列 */
+@media (min-width:560px){ .cards{ grid-template-columns:repeat(2,1fr); } }
+@media (min-width:900px){ .cards{ grid-template-columns:repeat(3,1fr); } }
+
+.card{
+  background:var(--card); color:var(--ink);
+  border:1px solid var(--bd); border-radius:var(--rad); overflow:hidden;
+}
+.card__bd{ padding:12px; }
+
+/* カード画像の比率崩れ・CLS対策 */
+.card img{ display:block; width:100%; height:auto; }
+.card__media{ aspect-ratio: 16/9; overflow:hidden; background:var(--bg); }
+.card__media > img{ width:100%; height:100%; object-fit:cover; }
+
+/* コース（表組み的なブロック） */
+.course{
+  background:var(--card); color:var(--ink);
+  border:1px solid var(--bd); border-radius:var(--rad); padding:12px;
+}
+
+/* 地図 */
+.map iframe{ width:100%; height:360px; border:none; }
+
+/* フッター（基本は明るめ＝ページの地色に馴染む） */
+.ft{
+  border-top:1px solid var(--bd);
+  background:var(--card);
+  padding:20px 16px;
+}
+.muted{ color:#666; font-size:14px; }
+
+
+/* タブのホバー・フォーカス強調（ヘッダーと同じ感じ） */
+.tab:hover,
+.tab:focus-visible {
+  background:rgba(191, 187, 187, 0.18); /* 少し濃くする */
+  border-color:rgba(191, 187, 187, 0.18); /* 枠も少し濃くする */
+}
+
+/* 暗い背景用タブのホバー・フォーカス */
+.tabs--on-dark .tab:hover,
+.tabs--on-dark .tab:focus-visible {
+  background:rgba(191, 187, 187, 0.18);
+  border-color:rgba(191, 187, 187, 0.18);
+}
+
+/* サブタブ（春夏秋冬）の見た目 */
+.subtabs {
+  display:flex; gap:6px; flex-wrap:wrap; margin:16px 0;
+}
+.subtab {
+  background:var(--card); color:var(--ink);
+  border:1px solid var(--bd);
+  padding:4px 10px;
+  border-radius:999px;
+  cursor:pointer;
+}
+.subtab.is-act {
+  background:var(--acc); color:#fff; border-color:var(--acc);
+}
+.subtab:hover,
+.subtab:focus-visible {
+  background:rgba(255,255,255,.18);
+  border-color:rgba(255,255,255,.36);
+}
+
+/* サブタブの中身 */
+.subtabp { margin-top:12px; }
+
+
+
+/* 今日の足利（ニュース欄）をスクロール可能にする */
+.news {
+  max-height: 150px;   /* 表示する高さを制限（好きな値に調整OK） */
+  overflow-y: auto;    /* 縦スクロールを有効化 */
+  padding-left: 1em;   /* リストの余白を確保（はみ出し防止） */
+  margin: 0;           /* 余白リセットで見た目を整える */
+}
+
+
+/* =========================================
+   ▼ 黒/白を“場所ごと”に切り替えるユーティリティ
+   （セクションやカードにクラスを足すだけ）
+   ========================================= */
+
+/* 黒系セクション（背景ダーク、文字は白系） */
+.section--dark{
+  background:#111418;                   /* 黒寄りの深いグレー/ネイビー */
+  color:#f4f6f8;
+  border-top:1px solid rgba(255,255,255,.06);
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+/* 白系セクション（既定） */
+.section--light{
+  background:var(--bg);
+  color:var(--ink);
+}
+
+/* セクション内の見出し色コントラスト */
+.section--dark h1,.section--dark h2,.section--dark h3{ color:#fff; }
+.section--light h1,.section--light h2,.section--light h3{ color:var(--ink); }
+
+/* 暗い背景の上でも“カードは白”にして読みやすく（黒面の中の白抜きカード） */
+.card--on-dark{
+  background:#fff; color:#1f1f1f;
+  border:1px solid rgba(255,255,255,.14); /* 黒面上で見えるよう白系の薄枠 */
+}
+
+/* 暗い背景用のタブ（境界と選択色を反転） */
+.tabs--on-dark .tab{
+  background:transparent; color:#e8eaee;
+  border:1px solid rgba(255,255,255,.22);
+}
+.tabs--on-dark .tab.is-act{
+  background:rgba(255,255,255,.14);
+  color:#fff; border-color:rgba(255,255,255,.34);
+}
+
+/* フッターをダークで“締め”たいとき */
+.ft--dark{
+  background:#0e1013; color:#e9eaee;
+  border-top:1px solid rgba(255,255,255,.08);
+}
+
+/* ダーク/ライト面での枠線最適化 */
+.section--dark .card,
+.section--dark .course{ border-color: rgba(255,255,255,.12); }
+.section--light .card,
+.section--light .course{ border-color: var(--bd); }
+
+/* 低速端末・ユーザー指定：アニメ/トランジション縮退 */
+@media (prefers-reduced-motion: reduce){
+  *{
+    animation-duration:.001ms !important;
+    animation-iteration-count:1 !important;
+    transition:none !important;
+    scroll-behavior:auto !important;
+  }
+}

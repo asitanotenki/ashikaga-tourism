@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>まるごと足利 – 見る・食べる・楽しむ</title>
+  <meta name="description" content="足利の観光・グルメ・イベント情報をまとめた非公式ガイド。足利学校、鑁阿寺、織姫神社、モデルコースなど。" />
+  <link rel="stylesheet" href="Ashikaga.css" />
+</head>
+<body>
+  <!-- Header -->
+  <header class="hd">
+    <div class="hd__inner">
+      <a class="logo">まるごと足利</a>
+      <button class="nav__btn" aria-expanded="false" aria-controls="nav">MENU</button>
+      <nav id="nav" class="nav" aria-label="メイン">
+        <a href="#news">今日の足利</a>
+        <a href="#spots">観光スポット</a>
+        <a href="#food">グルメ特集</a>
+        <a href="#course">モデルコース</a>
+        <a href="#map">地図で探す</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+<section class="hero" aria-label="メインビジュアル">
+
+  <!-- 1枚目 -->
+  <div class="hero__slide" style="--bg:url('img/orihime.jpg')"></div>
+
+  <!-- 2枚目 -->
+  <div class="hero__slide" style="--bg:url('img/Agakko.jpg')"></div>
+
+  <!-- 3枚目 -->
+  <div class="hero__slide" style="--bg:url('img/Fujinohana.jpg')"></div>
+
+  <!-- キャプション -->
+  <div class="hero__cap">
+    <h1>歴史と光のまち 足利へようこそ</h1>
+    <div class="btns">
+      <a class="btn" href="#spots">観光スポット一覧</a>
+      <a class="btn btn--sub" href="#news">今日のイベント</a>
+    </div>
+  </div>
+
+</section>
+
+
+  <!-- News -->
+  <section id="news" class="blk blk--news">
+    <h2>今日の足利</h2>
+    <ul class="news">
+      <!-- 手動更新でもOK。ブログ化するなら後で差し替え -->
+      <li><time datetime="2025-08-08">8/8</time> 織姫神社ライトアップ 19:00–21:00（予定）</li>
+      <li><time datetime="2025-08-09">8/9</time> あしかがフラワーパーク 夜のあじさい点灯</li>
+      <li><time datetime="2025-08-10">8/10</time> まちなかマルシェ＠足利学校前</li>
+      <li><time datetime="2025-08-10">8/10</time> まちなかマルシェ＠足利学校前</li>
+      <li><time datetime="2025-08-10">8/10</time> まちなかマルシェ＠足利学校前</li>
+      <li><time datetime="2025-08-10">8/10</time> まちなかマルシェ＠足利学校前</li>
+      <li><time datetime="2025-08-10">8/10</time> まちなかマルシェ＠足利学校前</li>
+    </ul>
+  </section>
+
+  <!-- Spots (tabs) -->
+  <section id="spots" class="blk">
+    <h2>観光スポット</h2>
+    <div class="tabs" role="tablist" aria-label="観光カテゴリ">
+      <button class="tab is-act" role="tab" aria-selected="true" aria-controls="tab-his" id="tabbtn-his">歴史</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="tab-nat" id="tabbtn-nat">自然</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="tab-evt" id="tabbtn-evt">季節</button>
+    </div>
+
+    <!-- 歴史 -->
+    <div class="tabp is-act" id="tab-his" role="tabpanel" aria-labelledby="tabbtn-his">
+      <div class="cards">
+        <article class="card">
+          <img src="img/Agakko.jpg" alt="足利学校の写真（仮）">
+          <div class="card__bd">
+            <h3>足利学校</h3>
+            <p>日本最古の学校と伝わる学びの地。所要60–90分。</p>
+            <div class="card__act">
+              <a class="btn btn--min" href="https://maps.google.com/?q=足利学校" target="_blank" rel="noopener">地図</a>
+            </div>
+          </div>
+        </article>
+        <article class="card">
+          <img src="img/Bannaji.jpg" alt="鑁阿寺の写真（仮）">
+          <div class="card__bd">
+            <h3>鑁阿寺</h3>
+            <p>国宝本堂を有する古刹。城郭風の伽藍も見どころ。</p>
+            <div class="card__act">
+              <a class="btn btn--min" href="https://maps.google.com/?q=鑁阿寺" target="_blank" rel="noopener">地図</a>
+            </div>
+          </div>
+        </article>
+        <article class="card">
+          <img src="img/B.orihime.jpg" alt="織姫神社の写真（仮）">
+          <div class="card__bd">
+            <h3>織姫神社</h3>
+            <p>足利織物の守護神。高台からの眺望と階段が名物。</p>
+            <div class="card__act">
+              <a class="btn btn--min" href="https://maps.google.com/?q=織姫神社" target="_blank" rel="noopener">地図</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <!-- 自然 -->
+    <div class="tabp" id="tab-nat" role="tabpanel" aria-labelledby="tabbtn-nat" hidden>
+      <div class="cards">
+        <article class="card">
+          <img src="assets/img/hero-2.jpg" alt="渡良瀬川（仮）">
+          <div class="card__bd">
+            <h3>渡良瀬川 河川敷</h3>
+            <p>散歩やサイクリングに。夕景がきれい。</p>
+            <div class="card__act">
+              <a class="btn btn--min" href="https://maps.google.com/?q=渡良瀬川" target="_blank" rel="noopener">地図</a>
+            </div>
+          </div>
+        </article>
+        <article class="card">
+          <img src="img/momijidani.jpg" alt="もみじ谷（仮）">
+          <div class="card__bd">
+            <h3>もみじ谷（織姫公園）</h3>
+            <p>紅葉の名所。見頃は11月中旬〜下旬。</p>
+            <div class="card__act">
+              <a class="btn btn--min" href="https://maps.google.com/?q=織姫公園 もみじ谷" target="_blank" rel="noopener">地図</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <!-- 季節 -->
+  <div class="tabp" id="tab-evt" role="tabpanel" aria-labelledby="tabbtn-evt" hidden>
+
+  <!-- ▼ サブタブ（春・夏・秋・冬） -->
+    <div class="subtabs" role="tablist" aria-label="季節カテゴリ">
+      <button class="subtab is-act" role="tab" aria-selected="true" aria-controls="subtab-spring" id="subbtn-spring">春</button>
+     <button class="subtab" role="tab" aria-selected="false" aria-controls="subtab-summer" id="subbtn-summer">夏</button>
+      <button class="subtab" role="tab" aria-selected="false" aria-controls="subtab-autumn" id="subbtn-autumn">秋</button>
+     <button class="subtab" role="tab" aria-selected="false" aria-controls="subtab-winter" id="subbtn-winter">冬</button>
+    </div>
+
+    <!-- ▼ サブタブの中身 -->
+    <div class="subtabp is-act" id="subtab-spring" role="tabpanel" aria-labelledby="subbtn-spring">
+      <div class="cards">
+        <article class="card">
+          <img src="img/Fujinohana.jpg" alt="春の足利（仮）">
+          <div class="card__bd">
+            <h3>藤の花ライトアップ</h3>
+            <p>あしかがフラワーパークの春の名物藤の花。とても幻想的で行かなきゃ損</p>
+            <!-- ▼ 地図ボタンを追加 -->
+            <div class="card__act">
+              <a class="btn btn--min" href="https://maps.google.com/?q=あしかがフラワーパーク" target="_blank" rel="noopener">
+                地図
+              </a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <div class="subtabp" id="subtab-summer" role="tabpanel" aria-labelledby="subbtn-summer" hidden>
+      <div class="cards">
+        <article class="card">
+          <img src="img/hanabi.jpg" alt="夏の足利（仮）">
+         <div class="card__bd">
+            <h3>足利花火大会</h3>
+            <p>北関東有数の花火大会。</p>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <div class="subtabp" id="subtab-autumn" role="tabpanel" aria-labelledby="subbtn-autumn" hidden>
+      <div class="cards">
+        <article class="card">
+          <img src="img/momijidani.jpg" alt="秋の足利（仮）">
+          <div class="card__bd">
+            <h3>もみじ谷（紅葉）</h3>
+           <p>紅葉の名所。11月中旬～下旬が見頃。</p>
+          </div>
+       </article>
+     </div>
+   </div>
+
+    <div class="subtabp" id="subtab-winter" role="tabpanel" aria-labelledby="subbtn-winter" hidden>
+      <div class="cards">
+        <article class="card">
+          <img src="img/Hikari.jpg" alt="冬の足利（仮）">
+          <div class="card__bd">
+           <h3>あしかがフラワーパーク イルミネーション</h3>
+            <p>全国的に有名な冬の光イベント。</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+
+  </section>
+
+  <!-- Food -->
+  <section id="food" class="blk">
+    <h2>グルメ特集</h2>
+    <div class="cards cards--grid">
+      <article class="card">
+        <img src="assets/img/hero-2.jpg" alt="和菓子（仮）">
+        <div class="card__bd">
+          <h3>和菓子・甘味</h3>
+          <p>寺社巡りとセットでどうぞ。老舗と新店をまとめて紹介。</p>
+        </div>
+      </article>
+      <article class="card">
+        <img src="assets/img/hero-3.jpg" alt="カフェ（仮）">
+        <div class="card__bd">
+          <h3>カフェ</h3>
+          <p>写真映えスポットも一緒に。徒歩5分圏内の店を厳選。</p>
+        </div>
+      </article>
+      <article class="card">
+        <img src="assets/img/hero-1.jpg" alt="ご当地グルメ（仮）">
+        <div class="card__bd">
+          <h3>ご当地</h3>
+          <p>ソースかつ、ポテト入り焼きそば、ワイナリー直送も。</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- Course -->
+  <section id="course" class="blk">
+    <h2>モデルコース</h2>
+    <ol class="course">
+      <li><strong>半日（徒歩）:</strong> 足利学校 → 鑁阿寺 → カフェ休憩 → 織姫神社（夕景）</li>
+      <li><strong>1日（車）:</strong> フラパ → ランチ → 織姫公園 → 町歩き → 夜マルシェ</li>
+      <li><strong>夜景:</strong> 織姫山夜景 → 灯りの小径 → 甘味</li>
+    </ol>
+  </section>
+
+  <!-- Map -->
+  <section id="map" class="blk">
+    <h2>地図で探す</h2>
+    <div class="map">
+      <!-- 後で自作のGoogleマイマップに差し替え推奨 -->
+      <iframe
+        title="足利 市内地図"
+        src="https://www.google.com/maps?q=足利市&output=embed"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="ft">
+    <div class="ft__in">
+      <p class="logo">まるごと足利</p>
+      <p class="muted">非公式ファンサイト。写真・情報はできる限り最新に更新します。</p>
+      <p>
+        <a href="https://forms.gle/" target="_blank" rel="noopener">お問い合わせ</a> /
+        <a href="#" rel="nofollow">プライバシー</a>
+      </p>
+    </div>
+  </footer>
+
+  <script src="Ashikaga.js"></script>
+</body>
+</html>
